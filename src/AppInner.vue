@@ -7,6 +7,7 @@ import WidgetShell from './components/common/WidgetShell.vue'
 import ConnectPanel from './components/ConnectPanel.vue'
 import DebugPanel from './components/DebugPanel.vue'
 import VisualPanel from './components/VisualPanel.vue'
+import HapticsTest from "./components/HapticsTest.vue";
 import { useDualSenseStore } from './store/dualsense'
 import { isDev } from './utils/env.util'
 
@@ -33,6 +34,7 @@ provide('deviceItem', readonly(currentDevice))
             <ConditionShell :shell="WidgetShell" :widgets="dsStore.views.widgetPanels" />
           </template>
           <DebugPanel v-if="dsStore.isDeviceReady && isDev" />
+          <HapticsTest v-if="dsStore.isDeviceReady" />
         </m.div>
       </AnimatePresence>
     </LayoutGroup>
