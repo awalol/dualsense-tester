@@ -146,6 +146,7 @@ function startPlayback() {
   // 串行发送循环：等上一包发完再发下一包，通过 sleep 校正节奏
   async function sendLoop() {
     const startTime = performance.now()
+    let batchStartTime = startTime
 
     while (packetIndex < totalPackets && !stopRequested.value) {
       try {
@@ -163,6 +164,13 @@ function startPlayback() {
       if ((packetIndex & 7) === 0 || packetIndex === totalPackets) {
         playbackOffset.value = packetIndex * SAMPLE_SIZE
         playbackProgress.value = Math.min(100, Math.round((packetIndex / totalPackets) * 100))
+      }
+
+      // 日志：每 10 包统计一次发送耗时
+      if (packetIndex % 10 === 0) {
+        const elapsedMs = performance.now() - batchStartTime
+        hidLogger.debug(`HapticsTest`, `Sent 10 packets in ${elapsedMs.toFixed(1)} ms`)
+        batchStartTime = performance.now()
       }
 
       // 自校正等待：根据理论时间线计算距下一包的剩余时间
