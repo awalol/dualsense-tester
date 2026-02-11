@@ -33,8 +33,8 @@ provide('deviceItem', readonly(currentDevice))
           <template v-if="dsStore.isDeviceReady && dsStore.views.widgetPanels?.length">
             <ConditionShell :shell="WidgetShell" :widgets="dsStore.views.widgetPanels" />
           </template>
-          <DebugPanel v-if="dsStore.isDeviceReady && isDev" />
           <HapticsTest v-if="dsStore.isDeviceReady" />
+          <DebugPanel v-if="dsStore.isDeviceReady && isDev" />
         </m.div>
       </AnimatePresence>
     </LayoutGroup>
